@@ -4,3 +4,4 @@ catalog/includes/OSC/Work/Cache/*.cache
 catalog/includes/OSC/Work/Session/*
 catalog/includes/OSC/Work/Logs/*.txt
 catalog/includes/OSC/Custom/*
+/nbproject/private/

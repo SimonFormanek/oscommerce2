@@ -189,6 +189,15 @@ $modules = [
         ]
     ],
     [
+        'dir' => $dir_fs_document_root . 'includes/modules/flexibee/',
+        'key' => 'MODULE_FLEXIBEE_INSTALLED',
+        'modules' => [
+            [
+                'file' => 'flexibee.php'
+            ]
+        ]
+    ],
+    [
         'dir' => $dir_fs_document_root . 'includes/modules/order_total/',
         'key' => 'MODULE_ORDER_TOTAL_INSTALLED',
         'modules' => [

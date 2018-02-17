@@ -182,6 +182,14 @@
     }
 
     if ($error == false) {
+        
+    if (defined('MODULE_FLEXIBEE_STATUS') && (constant('MODULE_FLEXIBEE_STATUS') == 'True')){
+    include_once './ext/flexibee/init.php';  
+    $adresar = new \PureOSC\flexibee\Adresar();
+    $kontakter = new \PureOSC\flexibee\Kontakt();
+  };
+
+        
       $sql_data_array = array('customers_firstname' => $firstname,
                               'customers_lastname' => $lastname,
                               'customers_email_address' => $email_address,
@@ -222,7 +230,41 @@
 
       $address_id = $OSCOM_Db->lastInsertId();
 
-      $OSCOM_Db->save('customers', ['customers_default_address_id' => (int)$address_id], ['customers_id' => (int)$_SESSION['customer_id']]);
+        if (defined('MODULE_FLEXIBEE_STATUS') && (constant('MODULE_FLEXIBEE_STATUS') == 'True')){
+            $nazev = strlen($company) ? $company : $firstname.' '.$lastname;
+
+        $adresar->insertToFlexiBee( [
+            'id'=>'ext:customers:'.$_SESSION['customer_id'],
+            'poznam' => 'zalozeno z eshopu',
+            'nazev' => $nazev,
+            'email' => $email_address,
+            //'ic' => $ico,
+            //'dic' => $vat_number,
+            'ulice' => $street_address,
+            'mesto' => $city,
+            'psc' => $postcode,
+//            'stat' => $country,
+            'tel' => $telephone,
+            'fax' => $fax,
+        ] );
+      
+      
+       $kontakter->insertToFlexiBee([
+            'id'=>'ext:customers:'.$address_id,
+             'firma' => $adresar,
+             'jmeno' => $firstname,
+             'prijmeni' => $lastname,
+            'email' => $email_address,
+            'ulice' => $street_address,
+            'mesto' => $city,
+            'psc' => $postcode ,
+//            'stat' => $country,
+            'tel' => $telephone,
+            'fax' => $fax]);
+       
+};
+    
+       $OSCOM_Db->save('customers', ['customers_default_address_id' => (int)$address_id], ['customers_id' => (int)$_SESSION['customer_id']]);
 
       $OSCOM_Db->save('customers_info', ['customers_info_id' => (int)$_SESSION['customer_id'], 'customers_info_number_of_logons' => '0', 'customers_info_date_account_created' => 'now()']);
 

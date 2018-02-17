@@ -345,6 +345,28 @@ $invoice->setDataValue("stavMailK", 'stavMail.odeslat');
 // load the after_process function from the payment modules
   $payment_modules->after_process();
 
+   //flexibee init
+  if (defined('MODULE_FLEXIBEE_STATUS') && (constant('MODULE_FLEXIBEE_STATUS') == 'True')){
+  require_once './ext/flexibee/init.php';
+  $invoice = new PureOSC\flexibee\FakturaVydana();
+  $invoice->setDataValue("firma", 'ext:customers:' . $_SESSION['customer_id']);
+$invoice->setDataValue("typDokl", 'code:FAKTURA');
+$invoice->setDataValue("stavMailK", 'stavMail.odeslat');
+$invoice->setDataValue('mena', \FlexiPeeHP\FlexiBeeRO::code( $order->info['currency']));
+    $invoice->setDataValue('kurz',  $order->info['currency_value']);
+
+foreach ($order->products as $pid => $product){
+$invoice->addArrayToBranch([
+        'nazev'=>$product['name'],
+        'mnozMj'=>$product['qty'],
+        'cenaMj'=>$product['price'],
+            'typPolozkyK'=>'typPolozky.obecny'
+            ], 'polozkyDokladu');
+ 
+}
+$invoice->insertToFlexiBee();
+}
+  
   $_SESSION['cart']->reset(true);
 
 // unregister session variables used during checkout

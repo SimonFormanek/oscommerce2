@@ -15,10 +15,10 @@
     },
     "autoload": {
         "psr-4": {
-            "PureOSC\\": "includes/classes/",
-            "PureOSC\\flexibee\\": "ext/flexibee/",
-            "PureOSC\\Admin\\": "admin/includes/classes/",
-            "PureOSC\\Admin\\flexibee\\": "admin/ext/flexibee/"
+            "PureOSC\\": "catalog/includes/classes/",
+            "PureOSC\\flexibee\\": "catalog/ext/flexibee/",
+            "PureOSC\\Admin\\": "catalog/admin/includes/classes/",
+            "PureOSC\\Admin\\flexibee\\": "catalog/admin/ext/flexibee/"
         }
     }
 }

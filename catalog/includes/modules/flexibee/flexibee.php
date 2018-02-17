@@ -49,7 +49,7 @@
         'configuration_key' => 'FLEXIBEE_URL',
         'configuration_value' => 'https://demo.flexibee.eu:5434',
         'configuration_description' => 'Server You use for Accounting.',
-        'configuration_group_id' => '6',
+        'configuration_group_id' => '1',
         'sort_order' => '1',
         'date_added' => 'now()'
       ]);
@@ -59,7 +59,7 @@
         'configuration_key' => 'FLEXIBEE_LOGIN',
         'configuration_value' => 'winstrom',
         'configuration_description' => 'User used with FlexiBee.',
-        'configuration_group_id' => '6',
+        'configuration_group_id' => '1',
         'sort_order' => '1',
         'date_added' => 'now()'
       ]);
@@ -68,7 +68,7 @@
         'configuration_key' => 'FLEXIBEE_PASSWORD',
         'configuration_value' => 'winstrom',
         'configuration_description' => 'FlexiBee API User password',
-        'configuration_group_id' => '6',
+        'configuration_group_id' => '1',
         'sort_order' => '1',
         'date_added' => 'now()'
       ]);
@@ -78,7 +78,7 @@
         'configuration_key' => 'FLEXIBEE_COMPANY',
         'configuration_value' => 'demo',
         'configuration_description' => 'Prefered FlexiBee company database name',
-        'configuration_group_id' => '6',
+        'configuration_group_id' => '1',
         'sort_order' => '1',
         'date_added' => 'now()'
       ]);

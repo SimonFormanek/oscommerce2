@@ -12,6 +12,12 @@
   use OSC\OM\Registry;
 
   include('includes/application_top.php');
+  //flexibee init
+  require_once './ext/flexibee/init.php';
+  $invoice = new PureOSC\flexibee\FakturaVydana();
+  $invoice->setDataValue("firma", 'ext:customers:' . $customer_id);
+$invoice->setDataValue("typDokl", 'code:FAKTURA');
+$invoice->setDataValue("stavMailK", 'stavMail.odeslat');
 
 // if the customer is not logged on, redirect them to the login page
   if (!isset($_SESSION['customer_id'])) {

@@ -15,10 +15,21 @@
     },
     "autoload": {
         "psr-4": {
+            "OSC\\OM\\": "catalog/includes/OSC/OM/",
+            "OSC\\OM\\Db\\": "catalog/includes/OSC/OM/Db/",
+            "OSC\\OM\\HTML\\": "catalog/includes/OSC/OM/HTML/",
+            "OSC\\OM\\Modules\\": "catalog/includes/OSC/OM/Modules/",
+            "OSC\\Sites\\Shop\\": "catalog/includes/OSC/Sites/Shop/",
+            "OSC\\Sites\\Admin\\": "catalog/includes/OSC/Sites/Admin/",
+            "OSC\\OM\\Session\\": "catalog/includes/OSC/OM/Session/",
             "PureOSC\\": "catalog/includes/classes/",
             "PureOSC\\flexibee\\": "catalog/ext/flexibee/",
             "PureOSC\\Admin\\": "catalog/admin/includes/classes/",
             "PureOSC\\Admin\\flexibee\\": "catalog/admin/ext/flexibee/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.0.1",
+        "phpunit/php-code-coverage": "* 6.0.1"
     }
 }

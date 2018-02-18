@@ -2,6 +2,8 @@ address_book_id int not_null auto_increment
 customers_id int not_null
 entry_gender char(1)
 entry_company varchar(255)
+entry_company_id varchar(32)
+entry_vat_id varchar(32)
 entry_firstname varchar(255) not_null
 entry_lastname varchar(255) not_null
 entry_street_address varchar(255) not_null

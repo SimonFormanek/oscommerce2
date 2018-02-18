@@ -33,7 +33,12 @@
     $lastname = HTML::sanitize($_POST['lastname']);
     if (ACCOUNT_DOB == 'true') $dob = HTML::sanitize($_POST['dob']);
     $email_address = HTML::sanitize($_POST['email_address']);
-    if (ACCOUNT_COMPANY == 'true') $company = HTML::sanitize($_POST['company']);
+    if (ACCOUNT_COMPANY == 'true') {
+        $company = HTML::sanitize($_POST['company']);
+        $company_id = HTML::sanitize($_POST['company_id']);
+        $vat_id = HTML::sanitize($_POST['vat_id']);
+        
+    }
     $street_address = HTML::sanitize($_POST['street_address']);
     if (ACCOUNT_SUBURB == 'true') $suburb = HTML::sanitize($_POST['suburb']);
     $postcode = HTML::sanitize($_POST['postcode']);
@@ -214,7 +219,11 @@
                               'entry_country_id' => $country);
 
       if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-      if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
+      if (ACCOUNT_COMPANY == 'true') {
+          $sql_data_array['entry_company'] = $company;
+          $sql_data_array['entry_company_id'] = $company_id;
+          $sql_data_array['entry_vat_id'] = $vat_id;
+      }
       if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
       if (ACCOUNT_STATE == 'true') {
         if ($zone_id > 0) {
@@ -417,6 +426,26 @@
         ?>
       </div>
     </div>
+      
+    <div class="form-group">
+      <label for="inputCompanyId" class="control-label col-sm-3"><?php echo OSCOM::getDef('entry_company_id'); ?></label>
+      <div class="col-sm-9">
+        <?php
+        echo HTML::inputField('company_id', NULL, 'id="inputCompanyId" placeholder="' . OSCOM::getDef('entry_company_id_text') . '"');
+        ?>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputVatId" class="control-label col-sm-3"><?php echo OSCOM::getDef('entry_vat_id'); ?></label>
+      <div class="col-sm-9">
+        <?php
+        echo HTML::inputField('vat_id', NULL, 'id="inputVatId" placeholder="' . OSCOM::getDef('entry_vat_id_text') . '"');
+        ?>
+      </div>
+    </div>
+
+      
   </div>
 
 <?php

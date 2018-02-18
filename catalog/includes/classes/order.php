@@ -75,6 +75,8 @@
       $this->customer = array('id' => $Qorder->valueInt('customers_id'),
                               'name' => $Qorder->value('customers_name'),
                               'company' => $Qorder->value('customers_company'),
+                              'company_id' => $Qorder->value('customers_company_id'),
+                              'vat_id' => $Qorder->value('customers_vat_id'),
                               'street_address' => $Qorder->value('customers_street_address'),
                               'suburb' => $Qorder->value('customers_suburb'),
                               'city' => $Qorder->value('customers_city'),
@@ -87,6 +89,8 @@
 
       $this->delivery = array('name' => $Qorder->value('delivery_name'),
                               'company' => $Qorder->value('delivery_company'),
+                              'company_id' => $Qorder->value('delivery_company_id'),
+                              'vat_id' => $Qorder->value('delivery_vat_id'),
                               'street_address' => $Qorder->value('delivery_street_address'),
                               'suburb' => $Qorder->value('delivery_suburb'),
                               'city' => $Qorder->value('delivery_city'),
@@ -101,6 +105,8 @@
 
       $this->billing = array('name' => $Qorder->value('billing_name'),
                              'company' => $Qorder->value('billing_company'),
+                             'company_id' => $Qorder->value('billing_company_id'),
+                             'vat_id' => $Qorder->value('billing_vat_id'),
                              'street_address' => $Qorder->value('billing_street_address'),
                              'suburb' => $Qorder->value('billing_suburb'),
                              'city' => $Qorder->value('billing_city'),
@@ -166,6 +172,8 @@
         'customers_telephone' => null,
         'customers_email_address' => null,
         'entry_company' => null,
+        'entry_company_id' => null,
+        'entry_vat_id' => null,
         'entry_street_address' => null,
         'entry_suburb' => null,
         'entry_postcode' => null,
@@ -181,7 +189,7 @@
       ];
 
       if (isset($_SESSION['customer_id'])) {
-        $Qcustomer = $OSCOM_Db->prepare('select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from :table_customers c, :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries co on (ab.entry_country_id = co.countries_id) where c.customers_id = :customers_id and c.customers_id = ab.customers_id and c.customers_default_address_id = ab.address_book_id');
+        $Qcustomer = $OSCOM_Db->prepare('select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_company_id, ab.entry_vat_id, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from :table_customers c, :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries co on (ab.entry_country_id = co.countries_id) where c.customers_id = :customers_id and c.customers_id = ab.customers_id and c.customers_default_address_id = ab.address_book_id');
         $Qcustomer->bindInt(':customers_id', $_SESSION['customer_id']);
         $Qcustomer->execute();
 
@@ -191,6 +199,8 @@
       $shipping_address = array('entry_firstname' => null,
                                 'entry_lastname' => null,
                                 'entry_company' => null,
+                                'entry_company_id' => null,
+                                'entry_vat_id' => null,
                                 'entry_street_address' => null,
                                 'entry_suburb' => null,
                                 'entry_postcode' => null,
@@ -210,6 +220,8 @@
           $shipping_address = array('entry_firstname' => $_SESSION['sendto']['firstname'],
                                     'entry_lastname' => $_SESSION['sendto']['lastname'],
                                     'entry_company' => $_SESSION['sendto']['company'],
+                                    'entry_company_id' => $_SESSION['sendto']['company_id'],
+                                    'entry_vat_id' => $_SESSION['sendto']['vat_id'],
                                     'entry_street_address' => $_SESSION['sendto']['street_address'],
                                     'entry_suburb' => $_SESSION['sendto']['suburb'],
                                     'entry_postcode' => $_SESSION['sendto']['postcode'],
@@ -224,7 +236,7 @@
                                     'address_format_id' => $_SESSION['sendto']['address_format_id'],
                                     'entry_state' => $_SESSION['sendto']['zone_name']);
         } elseif (is_numeric($_SESSION['sendto'])) {
-          $Qaddress = $OSCOM_Db->prepare('select ab.entry_firstname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries c on (ab.entry_country_id = c.countries_id) where ab.customers_id = :customers_id and ab.address_book_id = :address_book_id');
+          $Qaddress = $OSCOM_Db->prepare('select ab.entry_firstname, ab.entry_lastname, ab.entry_company, ab.entry_company_id, ab.entry_vat_id, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries c on (ab.entry_country_id = c.countries_id) where ab.customers_id = :customers_id and ab.address_book_id = :address_book_id');
           $Qaddress->bindInt(':customers_id', $_SESSION['customer_id']);
           $Qaddress->bindInt(':address_book_id', $_SESSION['sendto']);
           $Qaddress->execute();
@@ -236,6 +248,8 @@
       $billing_address = array('entry_firstname' => null,
                                'entry_lastname' => null,
                                'entry_company' => null,
+                               'entry_company_id' => null,
+                               'entry_vat_id' => null,
                                'entry_street_address' => null,
                                'entry_suburb' => null,
                                'entry_postcode' => null,
@@ -255,6 +269,8 @@
           $billing_address = array('entry_firstname' => $_SESSION['billto']['firstname'],
                                    'entry_lastname' => $_SESSION['billto']['lastname'],
                                    'entry_company' => $_SESSION['billto']['company'],
+                                   'entry_company_id' => $_SESSION['billto']['company_id'],
+                                   'entry_vat_id' => $_SESSION['billto']['vat_id'],
                                    'entry_street_address' => $_SESSION['billto']['street_address'],
                                    'entry_suburb' => $_SESSION['billto']['suburb'],
                                    'entry_postcode' => $_SESSION['billto']['postcode'],
@@ -269,7 +285,7 @@
                                    'address_format_id' => $_SESSION['billto']['address_format_id'],
                                    'entry_state' => $_SESSION['billto']['zone_name']);
         } elseif (is_numeric($_SESSION['billto'])) {
-          $Qaddress = $OSCOM_Db->prepare('select ab.entry_firstname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries c on (ab.entry_country_id = c.countries_id) where ab.customers_id = :customers_id and ab.address_book_id = :address_book_id');
+          $Qaddress = $OSCOM_Db->prepare('select ab.entry_firstname, ab.entry_lastname, ab.entry_company, ab.entry_company_id, ab.entry_vat_id, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from :table_address_book ab left join :table_zones z on (ab.entry_zone_id = z.zone_id) left join :table_countries c on (ab.entry_country_id = c.countries_id) where ab.customers_id = :customers_id and ab.address_book_id = :address_book_id');
           $Qaddress->bindInt(':customers_id', $_SESSION['customer_id']);
           $Qaddress->bindInt(':address_book_id', $_SESSION['billto']);
           $Qaddress->execute();
@@ -328,6 +344,8 @@
       $this->customer = array('firstname' => $customer_address['customers_firstname'],
                               'lastname' => $customer_address['customers_lastname'],
                               'company' => $customer_address['entry_company'],
+                              'company_id' => $customer_address['entry_company_id'],
+                              'vat_id' => $customer_address['entry_vat_id'],
                               'street_address' => $customer_address['entry_street_address'],
                               'suburb' => $customer_address['entry_suburb'],
                               'city' => $customer_address['entry_city'],
@@ -342,6 +360,8 @@
       $this->delivery = array('firstname' => $shipping_address['entry_firstname'],
                               'lastname' => $shipping_address['entry_lastname'],
                               'company' => $shipping_address['entry_company'],
+                              'company_id' => $shipping_address['entry_company_id'],
+                              'vat_id' => $shipping_address['entry_vat_id'],
                               'street_address' => $shipping_address['entry_street_address'],
                               'suburb' => $shipping_address['entry_suburb'],
                               'city' => $shipping_address['entry_city'],
@@ -355,6 +375,8 @@
       $this->billing = array('firstname' => $billing_address['entry_firstname'],
                              'lastname' => $billing_address['entry_lastname'],
                              'company' => $billing_address['entry_company'],
+                             'company_id' => $billing_address['entry_company_id'],
+                             'vat_id' => $billing_address['entry_vat_id'],
                              'street_address' => $billing_address['entry_street_address'],
                              'suburb' => $billing_address['entry_suburb'],
                              'city' => $billing_address['entry_city'],

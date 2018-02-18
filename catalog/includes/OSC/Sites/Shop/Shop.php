@@ -63,9 +63,13 @@ class Shop extends \OSC\OM\SitesAbstract
 //        $OSCOM_Language->setUseCache(true);
         Registry::set('Language', $OSCOM_Language);
 
+        if(php_sapi_name()=='cli'){
+            return;
+        }
+
 // create the shopping cart
         if (!isset($_SESSION['cart']) || !is_object($_SESSION['cart']) || (get_class($_SESSION['cart']) != 'shoppingCart')) {
-            $_SESSION['cart'] = new \shoppingCart();
+                $_SESSION['cart'] = new \shoppingCart();
         }
 
 // include currencies class and create an instance

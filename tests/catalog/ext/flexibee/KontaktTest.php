@@ -38,5 +38,19 @@ class KontaktTest extends TestCase
         
     }
 
-    
+    public function testTakeOscData(){
+        $address_id=1;
+        $adresar = new \PureOSC\flexibee\Adresar;
+        $firstname = 'FirstnameTest';
+        $lastname = 'LastnameTest';
+        $email_address = 'mail@simonformanek.cz';
+        $street_address = 'Ulice 1';
+        $city = 'Mesto';
+        $postcode = '10000';
+        $country = 'code:CZE';
+        $telephone = '000000';
+        $fax = '0000000';
+        $this->object->takeOscData($address_id, $adresar, $firstname, $lastname, $email_address, $street_address, $city, $postcode, $country, $telephone, $fax);
+        $this->assertEquals([], $this->object->getData());
+        }
 }

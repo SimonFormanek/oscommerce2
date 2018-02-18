@@ -239,41 +239,20 @@
 
       $address_id = $OSCOM_Db->lastInsertId();
 
-        if (defined('MODULE_FLEXIBEE_STATUS') && (constant('MODULE_FLEXIBEE_STATUS') == 'True')){
-            $nazev = strlen($company) ? $company : $firstname.' '.$lastname;
+      if (defined('MODULE_FLEXIBEE_STATUS') && (constant('MODULE_FLEXIBEE_STATUS') == 'True')) {
+            $nazev = strlen($company) ? $company : $firstname . ' ' . $lastname;
+            $Qcountry = $OSCOM_Db->get('countries', 'countries_iso_code_3', ['countries_id' => $country]);
+            $flexiBeeCountryCode =\FlexiPeeHP\FlexiBeeRO::code($Qcountry->value('countries_iso_code_3'));                                                                                                   
+  
+            $adresar->takeOscData($_SESSION['customer_id'], $nazev, $poznam, $nazev, $email_address, $street_address, $company_id, $vat_id, $city, $postcode, $telephone, $fax, $flexiBeeCountryCode);
+            $adresar->insertToFlexiBee();
+           if ($adresar->lastResponseCode==201){
+            $kontakter->takeOscData($address_id, $adresar, $firstname, $lastname, $email_address, $street_address, $city, $postocode, $flexiBeeCountryCode, $telephone, $fax);
+            $kontakter->insertToFlexiBee();
+           }
+        }
 
-        $adresar->insertToFlexiBee( [
-            'id'=>'ext:customers:'.$_SESSION['customer_id'],
-            'poznam' => 'zalozeno z eshopu',
-            'nazev' => $nazev,
-            'email' => $email_address,
-            //'ic' => $ico,
-            //'dic' => $vat_number,
-            'ulice' => $street_address,
-            'mesto' => $city,
-            'psc' => $postcode,
-//            'stat' => $country,
-            'tel' => $telephone,
-            'fax' => $fax,
-        ] );
-      
-      
-       $kontakter->insertToFlexiBee([
-            'id'=>'ext:customers:'.$address_id,
-             'firma' => $adresar,
-             'jmeno' => $firstname,
-             'prijmeni' => $lastname,
-            'email' => $email_address,
-            'ulice' => $street_address,
-            'mesto' => $city,
-            'psc' => $postcode ,
-//            'stat' => $country,
-            'tel' => $telephone,
-            'fax' => $fax]);
-       
-};
-    
-       $OSCOM_Db->save('customers', ['customers_default_address_id' => (int)$address_id], ['customers_id' => (int)$_SESSION['customer_id']]);
+        $OSCOM_Db->save('customers', ['customers_default_address_id' => (int)$address_id], ['customers_id' => (int)$_SESSION['customer_id']]);
 
       $OSCOM_Db->save('customers_info', ['customers_info_id' => (int)$_SESSION['customer_id'], 'customers_info_number_of_logons' => '0', 'customers_info_date_account_created' => 'now()']);
 

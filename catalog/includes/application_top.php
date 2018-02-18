@@ -22,7 +22,7 @@
 
   OSCOM::initialize();
 
-  if (!OSCOM::configExists('db_server') || (strlen(OSCOM::getConfig('db_server')) < 1)) {
+    if (!OSCOM::configExists('db_server') || (strlen(OSCOM::getConfig('db_server')) < 1)) {
     if (is_dir('install')) {
       header('Location: install/index.php');
       exit;
@@ -74,6 +74,7 @@
 
 // Shopping cart actions
   if ( isset($_GET['action']) ) {
+// TODO restore CookiesFree functionality (?) !!
 // redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled
     if ( Registry::get('Session')->hasStarted() === false ) {
       OSCOM::redirect('cookie_usage.php');
